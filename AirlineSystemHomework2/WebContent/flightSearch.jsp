@@ -20,6 +20,7 @@ if(user.getUser() == null)
 %>
 <center>
 <h1>Airline Reservation System</h1>
+<div>${errorMessage } </div>
 </center>
 <p align="right">User: <jsp:getProperty name="user" property="user"/> </p>
 <%--Form created to accept input data for flight query; submit action directs to flightResults.jsp  --%>

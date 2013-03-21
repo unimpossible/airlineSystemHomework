@@ -268,31 +268,37 @@ public Account getAccount(int routingNum, int accountNum) {
 	return account;
 	
 }
-public String[][] searchFlights(String source, String destination, String departDate, String returnDate, String seats, String flightClass) throws Exception{
+public ArrayList<Flight> searchFlights(String source, String destination, String departDate, String returnDate, String seats, String flightClass) throws Exception{
 	
-	String[][] flights = new String[100][100];
+	ArrayList<Flight> flights = new ArrayList<Flight>();
 	try{
 	conn = getConnection();
 	
-	pstmt = conn.prepareStatement("SELECT * FROM FLIGHTS WHERE SOURCE = ? AND DESTINATION = ? AND SEATS > 0");
+	pstmt = conn.prepareStatement("SELECT * FROM FLIGHTS WHERE SOURCE = ? AND DESTINATION = ? AND (SEATS_TOTAL-SEATS_TAKEN > 0)");
 	pstmt.setString(1, source);
 	pstmt.setString(2, destination);
 	rs = pstmt.executeQuery();
 	
-	int row = 1;
 	
 		while (rs.next()){
-						
-			flights[row][1] = rs.getString("FLIGHTNUMBER");
-			flights[row][2] = rs.getString("OPERATOR");
-			flights[row][3] = rs.getString("SOURCE");
-			flights[row][4] = rs.getString("DESTINATION");
-			flights[row][5] = rs.getString("SEATS_TOTAL");
-			flights[row][6] = rs.getString("SEATS_TAKEN");
-			flights[row][7] = rs.getString("COST");
-			flights[row][8] = rs.getString("DEPARTURE");
-			flights[row][9] = rs.getString("ARRIVAL");
-			row = row + 1;
+			Flight flight = new Flight();
+			
+			flight.setFlightId(rs.getInt("FLIGHTNUMBER"));
+			flight.setOperator(rs.getString("OPERATOR"));
+			flight.setSource(rs.getString("SOURCE"));
+			flight.setDestination(rs.getString("DESTINATION"));
+			int seatsTotal = rs.getInt("SEATS_TOTAL");
+			flight.setDeparture(rs.getTimestamp("DEPARTURE"));
+			int seatsTaken = rs.getInt("SEATS_TAKEN");
+			flight.setSeatCost(rs.getDouble("COST"));
+			flight.setArrival(rs.getTimestamp("ARRIVAL"));
+			
+			flight.setSeatsAvail(seatsTotal - seatsTaken); //set seats available
+			/*
+			 * Add the current flight to the array list
+			 */
+			flights.add(flight);
+			
 		}
 	
 	} catch (Exception e) {
@@ -301,7 +307,7 @@ public String[][] searchFlights(String source, String destination, String depart
     } finally {
         try {
             rs.close();
-            stmt.close();
+            pstmt.close();
             conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
