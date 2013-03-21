@@ -277,9 +277,6 @@ public String[][] searchFlights(String source, String destination, String depart
 	pstmt = conn.prepareStatement("SELECT * FROM FLIGHTS WHERE SOURCE = ? AND DESTINATION = ? AND SEATS > 0");
 	pstmt.setString(1, source);
 	pstmt.setString(2, destination);
-	Timestamp depart = new Timestamp();
-	depart.setTime(time)
-	pstmt.setTimestamp(3, x)
 	rs = pstmt.executeQuery();
 	
 	int row = 1;
