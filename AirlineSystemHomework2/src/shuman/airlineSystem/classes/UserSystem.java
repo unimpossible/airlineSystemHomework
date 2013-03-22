@@ -230,7 +230,7 @@ public Account getAccount(int routingNum, int accountNum) {
 	try {
 		conn = getConnection();
 		
-		pstmt = conn.prepareStatement("SELECT * FROM ACCOUNT WHERE ROUTINGNUMBER = ? AND ACCOUNTID = ?");
+		pstmt = conn.prepareStatement("SELECT * FROM ACCOUNTS WHERE ROUTINGNUMBER = ? AND ACCOUNTID = ?");
 		pstmt.setInt(1, routingNum);
 		pstmt.setInt(2, accountNum);
 		rs = pstmt.executeQuery();
@@ -242,9 +242,9 @@ public Account getAccount(int routingNum, int accountNum) {
 			 */
 			System.out.println("Retrieved account information.");
 			account.setAccountId(rs.getInt("ACCOUNTID"));
-			account.setBalance(rs.getInt("BALANCE"));
 			account.setHolderName(rs.getString("HOLDERNAME"));
 			account.setRoutingNumber(rs.getInt("ROUTINGNUMBER"));
+			account.setBalance(rs.getDouble("BALANCE"));
 		}
 		else
 			return null;
@@ -333,7 +333,7 @@ public Boolean debitBalance(Account account, double newCost) {
 			pstmt = conn.prepareStatement("UPDATE ACCOUNTS SET BALANCE = ? WHERE ACCOUNTID = ? AND ROUTINGNUMBER = ?");
 			pstmt.setDouble(1, newCost);
 			pstmt.setInt(2, account.getAccountId());
-			pstmt.setInt(2, account.getRoutingNumber());
+			pstmt.setInt(3, account.getRoutingNumber());
 			
 			int status = pstmt.executeUpdate();
 			if (status == 0)
@@ -389,9 +389,9 @@ public Boolean addBooking(String username, ArrayList<Flight> flightCart, Account
 			 */
 			
 		pstmt = conn.prepareStatement("INSERT INTO BOOKINGS " +
-				"(USERNAME, FLIGHTID, DATE, NUMBEROFSEATS, ACCOUNTID, TOTALCOST)" +
+				"(USERNAME, FLIGHTID, DEP_DATE, NUMBEROFSEATS, ACCOUNTID, TOTALCOST)" +
 				"VALUES" +
-				"(?, ?, ?, ?, ?, ?");
+				"(?, ?, ?, ?, ?, ?)");
 		
 		pstmt.setString(1, username);
 		pstmt.setInt(2, flight.getFlightId());
@@ -407,6 +407,8 @@ public Boolean addBooking(String username, ArrayList<Flight> flightCart, Account
 		}
 		else
 			succeed = true;
+		System.out.println("Added flight to booking history: " + flight.getFlightId());
+		pstmt.close();
 		}
 
 	} catch (SQLException e) {
@@ -419,7 +421,8 @@ public Boolean addBooking(String username, ArrayList<Flight> flightCart, Account
 		try {
             rs.close();
             //stmt.close();
-            pstmt.close();
+            if(!pstmt.isClosed()) //would have been closed already if executed.
+            	pstmt.close();
             conn.close();
         } catch (SQLException e) {
               e.printStackTrace();
@@ -448,7 +451,7 @@ public ArrayList<Booking> getBooking(User user) {
 			 */
 			booking.setBookingID(rs.getInt("BOOKINGID"));
 			booking.setFlightId(rs.getInt("FLIGHTID"));
-			booking.setDeparture(rs.getTimestamp("DATE"));
+			booking.setDeparture(rs.getTimestamp("DEP_DATE"));
 			booking.setNumberOfSeats(rs.getInt("NUMBEROFSEATS"));
 			booking.setTotalCost(rs.getDouble("TOTALCOST"));
 			booking.setAccountID(rs.getInt("ACCOUNTID"));

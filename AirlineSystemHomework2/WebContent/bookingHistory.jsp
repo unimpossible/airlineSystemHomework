@@ -20,7 +20,7 @@ if(user.getUser() == null)
 {
 	response.sendRedirect("login.jsp");
 }
-ArrayList<Booking> bookingHistory = (ArrayList<Booking>)session.getAttribute("BookingHistory");
+ArrayList<Booking> bookingHistory = (ArrayList<Booking>)request.getAttribute("bookingHistory");
 %>
 <center>
 <h1>Airline Reservation System</h1>
@@ -33,6 +33,7 @@ ArrayList<Booking> bookingHistory = (ArrayList<Booking>)session.getAttribute("Bo
 <td>Booking Number</td>
 <td>Flight Number </td>
 <td>Departure Time </td>
+<td>Number Seats</td>
 <td>Flight Cost</td>
 </tr>
 <% for(Booking flight : bookingHistory){ %>
@@ -41,8 +42,7 @@ ArrayList<Booking> bookingHistory = (ArrayList<Booking>)session.getAttribute("Bo
 <td><%=flight.getBookingID() %> </td>
 <td><%=flight.getFlightId() %> </td>
 <td><%= flight.getDeparture().toLocaleString() %> </td>
-
-
+<td><%=flight.getNumberOfSeats() %></td>
 <td>$<%= flight.getTotalCost() %></td>
 </tr>
 <%} %>

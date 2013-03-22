@@ -42,7 +42,7 @@ Class: <select name="flightClass">
 <br>
 
 <input type="submit" value="Search">
-<input type="button" value="Booking History" onclick="location.href('bookingHistory.jsp')">
+<input type="button" value="Booking History" onclick="location.href('BookingHistory')">
 <input type="button" value="Logout" onclick="location.href('Logout')">	
 </form>
 

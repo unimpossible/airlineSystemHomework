@@ -28,9 +28,10 @@ ArrayList<Flight> flightCart = (ArrayList<Flight>)session.getAttribute("FlightCa
 <center>
 <h1>Airline Reservation System</h1>
 <p align="right">User: <jsp:getProperty name="user" property="user"/> </p>
-<div style = "color:red">${errorMessage}</div> <%-- This code will print an error string, if present. --%>
+<div class="error" style = "color:red">${errorMessage}</div> <%-- This code will print an error string, if present. --%>
 </center>
 
+<%if(account.getApproved()){ %>
 <%double totalCost = 0; %>
 <h3>Flight Information</h3>
 <table border = 1>
@@ -61,10 +62,9 @@ ArrayList<Flight> flightCart = (ArrayList<Flight>)session.getAttribute("FlightCa
 <h3>Transaction Information:</h3>
 Account ID: ${account.accountId }<br>
 Account username: ${account.holderName }<br>
-<div style = "color:red">${errorMessage}</div> <%-- This code will print an error string, if present. --%>
 
 <%-- Accepts input information for passenger information only if account was approved. --%>
-<%if(account.getApproved()){ %>
+
 <form onsubmit="window.print()" >
 <h3>Passenger Information: </h3>
 	Name: <input type=text name=name><br>

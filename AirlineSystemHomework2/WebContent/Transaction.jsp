@@ -10,6 +10,10 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Airline Reservation Flight Transaction</title>
 </head>
+
+<script src="js/jquery-1.9.1.min.js" type="text/javascript"></script>
+<script src="js/jquery.validate.min.js" type="text/javascript"></script>
+
 <body>
 <jsp:useBean id="user" class="shuman.airlineSystem.classes.User" scope="session"/>
 <%
@@ -24,6 +28,7 @@ ArrayList<Flight> flightCart = (ArrayList<Flight>)session.getAttribute("FlightCa
 %>
 <center>
 <h1>Airline Reservation System</h1>
+<div class="error">${errorMessage }</div>
 </center>
 <p align="right">User: <jsp:getProperty name="user" property="user"/> </p>
 
@@ -56,7 +61,7 @@ ArrayList<Flight> flightCart = (ArrayList<Flight>)session.getAttribute("FlightCa
 </table>
 <b>Total Cost (all flights): </b> $ <%=totalCost %>
 <%-- Accepts input information for billing and passes variables to transactionConfirmation.jsp --%>
-<form action="TransactionConfirmation" method="post">
+<form id="accountForm" action="TransactionConfirmation" method="post">
 
 	Name: <input type=text name=name><br>
 	Address: <input type=text name=address><br>
@@ -68,7 +73,7 @@ ArrayList<Flight> flightCart = (ArrayList<Flight>)session.getAttribute("FlightCa
 	Account Number: <input type=text name=account><br>
 
 
-	<input type="submit" value="Confirm Transaction"> 
+	<input id="submitBtn" type="submit" value="Confirm Transaction"> 
 	<input type="button" value="Add Flights" onclick="location.href('flightSearch.jsp')">
 	<input type="button" value="Logout" onclick="location.href('login.jsp')">	
 	

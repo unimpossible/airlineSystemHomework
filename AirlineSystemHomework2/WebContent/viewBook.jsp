@@ -21,6 +21,7 @@ Flight flightInfo = (Flight) request.getAttribute("flightInfo");
 %>
 <center>
 <h1>Airline Reservation System</h1>
+<div> ${errorMessage }</div>
 </center>
 <p align="right">User: <jsp:getProperty name="user" property="user"/> </p>
 
