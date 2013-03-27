@@ -53,9 +53,9 @@
 	<servlet>
 		<description>
 		</description>
-		<display-name>TransactionConfirmation</display-name>
-		<servlet-name>TransactionConfirmation</servlet-name>
-		<servlet-class>shuman.airlineSystem.servlets.TransactionConfirmation</servlet-class>
+		<display-name>BookingUpdate</display-name>
+		<servlet-name>BookingUpdate</servlet-name>
+		<servlet-class>shuman.airlineSystem.servlets.BookingUpdate</servlet-class>
 	</servlet>
 	<servlet>
 		<description>
@@ -64,9 +64,20 @@
 		<servlet-name>BookingHistory</servlet-name>
 		<servlet-class>shuman.airlineSystem.servlets.BookingHistory</servlet-class>
 	</servlet>
+	<servlet>
+		<description>
+		Banking System</description>
+		<display-name>Bank</display-name>
+		<servlet-name>Bank</servlet-name>
+		<servlet-class>shuman.airlineSystem.servlets.Bank</servlet-class>
+	</servlet>
 	<servlet-mapping>
 		<servlet-name>Login</servlet-name>
 		<url-pattern>/Login</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>Bank</servlet-name>
+		<url-pattern>/Bank</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>Registration</servlet-name>
@@ -85,8 +96,8 @@
 		<url-pattern>/FlightSearchResults</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
-		<servlet-name>TransactionConfirmation</servlet-name>
-		<url-pattern>/TransactionConfirmation</url-pattern>
+		<servlet-name>BookingUpdate</servlet-name>
+		<url-pattern>/BookingUpdate</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>BookingHistory</servlet-name>

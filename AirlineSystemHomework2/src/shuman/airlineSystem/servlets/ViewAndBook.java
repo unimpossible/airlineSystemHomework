@@ -83,7 +83,7 @@ public class ViewAndBook extends HttpServlet {
 					 flightCart.add(flight);
 					 session.setAttribute("FlightCart", flightCart);
 					 
-					 dispatch = request.getRequestDispatcher("Transaction.jsp");
+					 dispatch = request.getRequestDispatcher("confirmBooking.jsp");
 					 
 				 }
 				 else

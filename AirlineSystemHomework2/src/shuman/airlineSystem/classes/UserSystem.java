@@ -60,32 +60,32 @@ public boolean addUser(String username, String password, String email, String do
     	conn = getConnection();
                  	       
             	
-        pstmt = conn.prepareStatement("INSERT INTO SYSTEM.USERS (USERNAME, PASSWORD, EMAIL, DOB) VALUES (?, ?, ?, ?)");
+        pstmt = conn.prepareStatement("INSERT INTO USERS (USERNAME, PASSWORD, EMAIL, DOB) VALUES (?, ?, ?, ?)");
         pstmt.setString(1, username);
         pstmt.setString(2, password);
         pstmt.setString(3, email);
         pstmt.setString(4, dob);
         
-        rs = pstmt.executeQuery();
-        
-        if (rs.next()) {
-           conf= "Success";		 
-         } else {
-           conf= "Failure";
-         }
+        int status = pstmt.executeUpdate();
+        if (status == 0)
+        	conf= "Failure";
+		else
+			conf= "Success";	
+
             
         
         
       } catch (Exception e) {
+    	//  System.out.println("UserSystem!! " +e.getMessage());
           e.printStackTrace();
-          System.exit(1);
       } finally {
           try {
-              rs.close();
+              //rs.close();
               //stmt.close();
               pstmt.close();
               conn.close();
           } catch (SQLException e) {
+        	 // System.out.println("UserSystem!! " +e.getMessage());
                 e.printStackTrace();
           }
       }  
@@ -160,7 +160,8 @@ public boolean isValidUser(String username, String password)
 
 public static Connection getConnection() throws Exception {
 	String driver = "oracle.jdbc.driver.OracleDriver";
-    String url = "jdbc:oracle:thin:@localhost:1521:XE";
+    //String url = "jdbc:oracle:thin:@cci-ora02.uncc.edu:1521:class";
+    String url = "jdbc:oracle:thin:@localhost:1521";
     //String dbName = "testing";
     String username = "SYSTEM";
     String password = "password";
@@ -419,7 +420,7 @@ public Boolean addBooking(String username, ArrayList<Flight> flightCart, Account
 		e.printStackTrace();
 	}finally{
 		try {
-            rs.close();
+            //rs.close();
             //stmt.close();
             if(!pstmt.isClosed()) //would have been closed already if executed.
             	pstmt.close();
